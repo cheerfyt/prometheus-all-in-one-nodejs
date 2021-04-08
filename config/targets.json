@@ -3,6 +3,6 @@
     "labels": {
       "job": "my-app"
     },
-    "targets": ["my-app1:9527", "my-app2:9527", "my-app3:9527"]
+    "targets": ["my-app1:9527", "my-app2:9527", "my-app3:9527", "my-app4:9527"]
   }
 ]

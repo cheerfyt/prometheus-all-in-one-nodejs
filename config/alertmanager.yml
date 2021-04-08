@@ -6,12 +6,30 @@ route:
   group_wait: 10s
   group_interval: 10s
   repeat_interval: 1h
-  receiver: "webhook"
+  receiver: "default-receiver"
+  routes:
+    - group_by: ["nodejs_process_up"]
+      group_wait: 1m
+      receiver: "dingtalk"
+      match:
+        severity: info
+
+    - group_by: ["nodejs_process_down"]
+      group_wait: 10s
+      receiver: "dingtalk_fatal"
+      match:
+        severity: fatal
 
 receivers:
-  - name: "webhook"
+  - name: "default-receiver"
+
+  - name: "dingtalk"
     webhook_configs:
       - url: "http://dingtalk:8060/dingtalk/webhook2/send"
+
+  - name: "dingtalk_fatal"
+    webhook_configs:
+      - url: "http://dingtalk:8060/dingtalk/webhook_mention_users/send"
 
 inhibit_rules:
   - source_match:
