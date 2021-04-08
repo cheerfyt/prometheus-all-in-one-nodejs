@@ -91,28 +91,28 @@ services:
   # ================================================================
   # myapp
   myapp1:
-    image: cheerfyt/app:0.0.5
+    image: cheerfyt/app:latest
     container_name: my-app1
     ports:
       - "9527:9527"
     restart: unless-stopped
 
   myapp2:
-    image: cheerfyt/app:0.0.5
+    image: cheerfyt/app:latest
     container_name: my-app2
     ports:
       - "9528:9527"
     restart: unless-stopped
 
   myapp3:
-    image: cheerfyt/app:0.0.5
+    image: cheerfyt/app:latest
     container_name: my-app3
     ports:
       - "9529:9527"
     restart: unless-stopped
 
   myapp4:
-    image: cheerfyt/app:0.0.5
+    image: cheerfyt/app:latest
     container_name: my-app4
     ports:
       - "9530:9527"
