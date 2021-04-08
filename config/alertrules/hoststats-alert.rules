@@ -1,0 +1,21 @@
+groups:
+
+- name: nodejsProcessAlert
+  rules:
+  - alert: newNodeJSProcessStarted
+    expr: (sum(up{job="my-app"}) - sum(up{job="my-app"} offset 1m )) > 0
+    for: 0
+    labels:
+      severity: info
+    annotations:
+      summary: "instance {{ $labels.instance }} process up"
+      description: "{{ $labels.instance }} process up"
+
+  - alert: nodeJSProcessDown
+    expr: (sum(up{job="my-app"}) - sum(up{job="my-app"} offset 1m )) < 0
+    for: 0
+    labels:
+      severity: fatal
+    annotations:
+      summary: "instance {{ $labels.instance }} process down"
+      description: "{{ $labels.instance }} process down"
