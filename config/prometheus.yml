@@ -1,7 +1,7 @@
 global:
   scrape_interval: 10s # 抓取的频率
   scrape_timeout: 10s
-  evaluation_interval: 30s # 表达式的计算频率
+  evaluation_interval: 40s # 表达式的计算频率
 
 rule_files:
   - /etc/prometheus/rules/*.rules

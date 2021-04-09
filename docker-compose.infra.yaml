@@ -11,6 +11,7 @@ services:
       - ./config/alertrules:/etc/prometheus/rules
       - ./config/targets.json:/prometheus/targets.json
     restart: unless-stopped
+    command: "--config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle"
     depends_on:
       - cadvisor
       - node_exporter

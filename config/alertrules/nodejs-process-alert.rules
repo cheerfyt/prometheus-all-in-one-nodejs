@@ -2,21 +2,33 @@ groups:
 - name: Nodejs process alert
   rules:
   - alert: nodejs_process_up
-    expr: (sum(up{job="my-app"}) - sum(up{job="my-app"} offset 1m )) > 0
+    expr: (sum(up{job="my-app"}) - sum(up{job="my-app"} offset 30s)) > 0
     for: 0 
     labels:
       team: nodejs
       severity: info
     annotations:
-      summary: "instance {{ $labels.instance }} process up"
-      description: "{{ $value }} process up"
+      summary: Instance {{ $labels.instance }} of {{ $labels }} process up
+      description: "Detect {{ $value }} processes created"
 
   - alert: nodejs_process_down
-    expr: (sum(up{job="my-app"}) - sum(up{job="my-app"} offset 1m )) < 0
+    expr: (sum(up{job="my-app"}) - sum(up{job="my-app"} offset 30s )) < 0
     for: 0
     labels:
       team: nodejs
       severity: fatal
     annotations:
-      summary: "instance {{ $labels.instance }} process down"
-      description: "{{ $value }} process down"
+      summary: Instance {{ $labels.instance }} of {{ $labels }} process down
+      description: "Detected {{ $value }} process created"
+
+- name: Nginx status alert
+  rules:
+  - alert: request_qps
+    expr: irate(nginx_http_requests_total[1m]) > 2000
+    for: 0
+    labels:
+      team: nodejs
+      severity: waring
+    annotations:
+      summary: Instance {{ $labels.instance }} qps({{ $value }}) > 2000
+      description: "Instance {{ $labels.instance }} qps({{ $value }}) > 2000 waring!!!"

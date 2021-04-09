@@ -9,16 +9,21 @@ route:
   receiver: "default-receiver"
   routes:
     - group_by: ["nodejs_process_up"]
-      group_wait: 1m
       receiver: "dingtalk"
       match:
         severity: info
 
     - group_by: ["nodejs_process_down"]
-      group_wait: 10s
-      receiver: "dingtalk_fatal"
+      receiver: "dingtalk"
       match:
         severity: fatal
+
+    - group_by: ["request_qps"]
+      group_wait: 10s
+      group_interval: 10s
+      receiver: "dingtalk"
+      match:
+        severity: waring
 
 receivers:
   - name: "default-receiver"
@@ -26,10 +31,12 @@ receivers:
   - name: "dingtalk"
     webhook_configs:
       - url: "http://dingtalk:8060/dingtalk/webhook2/send"
+        send_resolved: false
 
   - name: "dingtalk_fatal"
     webhook_configs:
       - url: "http://dingtalk:8060/dingtalk/webhook_mention_users/send"
+        send_resolved: false
 
 inhibit_rules:
   - source_match:
@@ -37,3 +44,8 @@ inhibit_rules:
     target_match:
       severity: "warning"
     equal: ["alertname", "dev", "instance"]
+  # - source_match:
+  #     severity: "info"
+  #   target_match:
+  #     severity: "info"
+  #   equal: ["alertname", "team"]
