@@ -13,7 +13,8 @@
     "up:infra": "docker-compose -f docker-compose.infra.yaml up -d",
     "down:infra": "docker-compose -f docker-compose.infra.yaml stop",
     "rm:infra": "docker-compose -f docker-compose.infra.yaml rm --stop",
-    "clean:infra": "docker system prune -f"
+    "clean:infra": "docker system prune -f",
+    "reload:prom": "./scripts/reload"
   },
   "keywords": [],
   "author": "",

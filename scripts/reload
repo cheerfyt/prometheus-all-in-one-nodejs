@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if curl -X POST http://localhost:9090/-/reload; then
+  echo reload prometheus config ...
+fi
