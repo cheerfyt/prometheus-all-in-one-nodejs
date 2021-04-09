@@ -1,8 +1,3 @@
 targets:
   webhook2:
     url: "https://oapi.dingtalk.com/robot/send?access_token=d819704d6446632e1fa744762469c7b44c9f68680654a1151c65541bfc48311c"
-
-  webhook_mention_users:
-    url: "https://oapi.dingtalk.com/robot/send?access_token=d819704d6446632e1fa744762469c7b44c9f68680654a1151c65541bfc48311c"
-    mention:
-      mobiles: ["18010176069"]
