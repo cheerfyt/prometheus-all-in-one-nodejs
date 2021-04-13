@@ -16,6 +16,13 @@ services:
       - cadvisor
       - node_exporter
       - alertmanager
+        
+  pushgateway:
+    image: prom/pushgateway
+    container_name: pushgateway
+    restart: unless-stopped
+    ports:
+      - "9091:9091"
 
   # cadvisor monit docker container
   cadvisor:
