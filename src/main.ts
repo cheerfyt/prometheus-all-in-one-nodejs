@@ -3,26 +3,31 @@ import bodyParser from "koa-bodyparser";
 import Router from "koa-router";
 import json from "koa-json";
 import KoaLogger from "koa-logger";
+import { ProLogger } from "./logger";
+import { stdSerializers } from "bunyan";
 const prom = require("@echo-health/koa-prometheus-exporter");
 
 const app = new Koa();
 const router = new Router();
 
-process.on("SIGQUIT", () => {
-  console.log("get signal SIGQUIT, process will exit");
-  process.exit();
+const logger = new ProLogger({
+  name: "prometheus-logger",
+  serializers: {
+    error: stdSerializers.err
+  }
 });
 
-process.on("SIGINT", () => {
-  console.log("user send ctrl+c, process will exit");
-  process.exit();
+const md1 = logger.toMiddleware("md1", async (ctx: any, next: Koa.Next) => {
+  ctx.logger.info("this is raw logger");
+  return next();
 });
 
-app.use(
-  prom.middleware({
-    path: "/my-metric",
-  })
-);
+const md2 = logger.toMiddleware("md2", async (ctx: any, next: Koa.Next) => {
+  throw new Error(`Md2 error`);
+});
+
+app.use(md1);
+app.use(md2);
 app.use(json());
 app.use(KoaLogger());
 app.use(bodyParser());
